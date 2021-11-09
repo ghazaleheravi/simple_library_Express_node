@@ -6,9 +6,20 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-//var coolRouter = require('./routes/cool');
+var coolRouter = require('./routes/users');
 
 var app = express();
+
+/*connecting to Database-MongoDB*/
+const mongoose = require('mongoose');
+const mongoDB = 'mongodb+srv://m001-student:learningdatabase@sandbox.mxfyc.mongodb.net/local_library?retryWrites=true&w=majority';
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true})
+  .then( () => console.log('Connection to MongoDB is successful!'))
+  .catch(err => console.log('Failed connection to MongoDB'));
+
+mongoose.connection.on('error', err => console.log('Server disconnected from mongoDB'));
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,11 +31,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//these paths '/' and 'users' are treated as a prfix to routes defined in the imported files(middlewares:indexRouter,coolRouter)
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-//app.use('/users/cool', coolRouter);
+//to add more route, seprate the middlewares with comma or add next line or in an array
+app.use('/users', usersRouter, coolRouter);   
+//app.use('/users', coolRouter); 
 
 // catch 404 and forward to error handler
+// express does not catch HTTP errors
+// we don't want to shut down the app so give it to next()
 app.use(function(req, res, next) {
   next(createError(404));
 });
