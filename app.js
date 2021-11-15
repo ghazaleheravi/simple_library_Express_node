@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var coolRouter = require('./routes/users');
+var catalogRouter = require('./routes/catalog');
 
 var app = express();
 
@@ -31,15 +32,21 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//these paths '/' and 'users' are treated as a prfix to routes defined in the imported files(middlewares:indexRouter,coolRouter)
+//these paths '/' and 'users' are treated as a prefix to routes defined in the imported files(middlewares:indexRouter,coolRouter)
 app.use('/', indexRouter);
-//to add more route, seprate the middlewares with comma or add next line or in an array
+
+//to add more routes, seprate the middlewares with comma, or write it in new line(seprately), or use array
 app.use('/users', usersRouter, coolRouter);   
 //app.use('/users', coolRouter); 
 
-// catch 404 and forward to error handler
-// express does not catch HTTP errors
-// we don't want to shut down the app so give it to next()
+app.use('/catalog', catalogRouter);
+
+
+/*
+  catch 404 and forward to error handler
+  express does not catch HTTP errors
+  we don't want to shut down the app so give it to next()
+*/
 app.use(function(req, res, next) {
   next(createError(404));
 });
