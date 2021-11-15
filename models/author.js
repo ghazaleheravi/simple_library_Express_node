@@ -22,11 +22,11 @@ authorSchema
 .get( function() {
   var lifetime_string = '';
   if (this.date_of_birth) {
-    lifetime_string = DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED);
+    lifetime_string = DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY);
   }
   life_string += ' - ';
   if (this.date_of_death) {
-    lifetime_string += DateTime.fromJSDate(this.date_of_death).toLocaleString(DateTime.DATE_MED)
+    lifetime_string += DateTime.fromJSDate(this.date_of_death).toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
   }
   return lifetime_string;
 });
