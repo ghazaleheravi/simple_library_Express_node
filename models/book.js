@@ -13,9 +13,7 @@ var bookSchema = new Schema(
   }
 );
 
-bookSchema
-.virtual('url')
-.get( function() {
+bookSchema.virtual('url').get( function() {
   return '/category/book/' + this._id;
 });
 

@@ -13,9 +13,7 @@ var authorSchema = new Schema(
 //a virtula is a schema property that is not stored in mongoDB
 //'this' is the document
 //don't use arrow functions
-authorSchema
-.virtual('name')
-.get(function () {
+authorSchema.virtual('name').get(function () {
   return this.first_name + ' ' + this.family_name;
 });
 
@@ -33,9 +31,7 @@ authorSchema
   return lifetime_string;
 });
 
-authorSchema
-.virtual('url')
-.get( function () {
+authorSchema.virtual('url').get( function () {
   return '/catalog/author/' + this._id;
 });
 
