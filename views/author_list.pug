@@ -1,0 +1,12 @@
+extends layout 
+
+block content 
+  h1= title
+
+  ul 
+    for author in author_list 
+      li 
+        a(href=author.url) #{author.name}
+
+    else 
+      li There are no authors.    

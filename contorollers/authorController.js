@@ -1,10 +1,17 @@
+//we need to import models to intract with DB, and see how and what data we need 
 var Author = require('../models/author');
+
 
 var async = require('async');
 
 // Display list of all Authors.
-exports.author_list = function(req, res) {
-    res.send('NOT IMPLEMENTED: Author list');
+exports.author_list = function(req, res, next) {
+  Author.find()
+    .sort({family_name: 1})
+    .exec(function(err, results) {
+      if(err) {return next(err)}
+      res.render('author_list', {title: 'Authors list:', author_list: results})
+    })
 };
 
 // Display detail page for a specific Author.
