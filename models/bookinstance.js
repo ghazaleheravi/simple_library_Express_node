@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 
+//data formatting library
+const { DateTime } = require('luxon');
+
 const Schema = mongoose.Schema;
 
 var bookInstanceSchema = new Schema(
@@ -13,6 +16,11 @@ var bookInstanceSchema = new Schema(
 
 bookInstanceSchema.virtual('url').get (function () {
   return '/catalog/bookInstance/' + this._id;
+});
+
+//this virtual is formatting the due_back date
+bookInstanceSchema.virtual('formatted_due_back').get(function() {
+  return DateTime.fromJSDate(this.due_back).toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY);
 });
 
 module.exports = mongoose.model('BookInstance', bookInstanceSchema);
