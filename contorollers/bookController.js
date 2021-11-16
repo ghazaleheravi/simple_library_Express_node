@@ -1,7 +1,37 @@
 var Book = require('../models/book');
 
-exports.index = function(req, res) {
-    res.send('NOT IMPLEMENTED: Site Home Page');
+//requiring the other models to have access to DB for the info for homepage
+var Author = require('../models/author');
+var BookInstance = require('../models/bookinstance');
+var Genre = require('../models/genre');
+
+//node module for asynchronous flow
+var async = require('async');
+
+// this is route_handler for home page '/' or '/catalog' 
+//we want to show count of all the documents(books,authors,bookinstanses,genres)
+exports.index = function(req, res, next) {
+    async.parallel({
+        books_count: function(callback) {
+            Book.countDocuments({}, callback); 
+        },
+        authors_count: function(callback) {
+            Author.countDocuments({}, callback);
+        }, 
+        bookInstance_count: function(callback) {
+            BookInstance.countDocuments({}, callback);
+        },
+        bookInstance_available_count: function(callback) {
+            BookInstance.countDocuments({status:'Available'}, callback);
+        },
+        genre_count: function(callback){
+            Genre.countDocuments({}, callback);
+        }
+    },  function(err, results) {
+            if(err) {return next(err)};
+            res.render('index', {title: 'Welcome to My local library', data: results});
+    });
+    
 };
 
 // Display list of all books.
