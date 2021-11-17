@@ -1,11 +1,11 @@
-const express = require('express');
-const router = express.Router();
+var express = require('express');
+var router = express.Router();
 
 //requireing(importing) controllers(router handlers) modules(files)
-const book_controller = require('../contorollers/bookController');
-const author_controller = require('../contorollers/authorController');
-const book_instance_controller = require('../contorollers/bookinstanceController');
-const genre_controller = require('../contorollers/genreController'); 
+var book_controller = require('../controllers/bookController');
+var author_controller = require('../controllers/authorController');
+var book_instance_controller = require('../controllers/bookinstanceController');
+var genre_controller = require('../controllers/genreController'); 
 
 
 /*------------------------------Book Routers------------------------------------*/
