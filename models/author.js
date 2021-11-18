@@ -17,14 +17,12 @@ authorSchema.virtual('name').get(function () {
   return this.first_name + ' ' + this.family_name;
 });
 
-authorSchema
-.virtual('lifespan')
-.get( function() {
+authorSchema.virtual('lifespan').get( function() {
   var lifetime_string = '';
   if (this.date_of_birth) {
     lifetime_string = DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY);
   }
-  life_string += ' - ';
+  lifetime_string += ' - ';
   if (this.date_of_death) {
     lifetime_string += DateTime.fromJSDate(this.date_of_death).toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
   }

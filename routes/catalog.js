@@ -4,8 +4,8 @@ var router = express.Router();
 //requireing(importing) controllers(router handlers) modules(files)
 var book_controller = require('../controllers/bookController');
 var author_controller = require('../controllers/authorController');
-var book_instance_controller = require('../controllers/bookinstanceController');
-var genre_controller = require('../controllers/genreController'); 
+var genre_controller = require('../controllers/genreController');
+var book_instance_controller = require('../controllers/bookinstanceController'); 
 
 
 /*------------------------------Book Routers------------------------------------*/
@@ -32,7 +32,7 @@ router.get('/book/:id/update', book_controller.book_update_get);
 router.post('/book/:id/update', book_controller.book_update_post);
 
 // GET request for one Book.
-router.get('/book/:id', book_controller.book_detail);
+router.get('/book/:id', book_controller['book_detail']);
 
 // GET request for list of all Book items.
 router.get('/books', book_controller.book_list);
