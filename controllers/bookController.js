@@ -1,5 +1,7 @@
 var Book = require('../models/book');
 
+var mongoose = require('mongoose');
+
 //requiring the other models to have access to DB for the info for homepage
 var Author = require('../models/author');
 var BookInstance = require('../models/bookinstance');
@@ -46,8 +48,28 @@ exports.book_list = function(req, res, next) {
 };
 
 // Display detail page for a specific book.
-exports.book_detail = function(req, res) {
-    
+exports.book_detail = function(req, res, next) {
+  var id = mongoose.Types.ObjectId(req.params.id);
+  async.parallel({
+    book: function(callback) {
+      Book.findById({ _id: id })
+        .populate('author')
+        .populate('genre') 
+        .exec(callback);
+    },
+    copy: function(callback) {
+      BookInstance.find({ book: id })
+        .exec(callback);
+    }
+  },  function(err, results) {
+        if(err) {return next(err)}
+        if(results.book === null) {
+          var err = new Error('Book not found');
+          err.status = 404;
+          return next(err);
+        }
+        res.render('book_detail', { book: results.book, copies: results.copy})
+  });
 };
 
 // Display book create form on GET.

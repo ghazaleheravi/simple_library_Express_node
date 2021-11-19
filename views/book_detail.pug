@@ -1,0 +1,42 @@
+extends layout 
+
+block content 
+
+  h1 Title: #{book.title}
+
+  p #[strong Author:] 
+    a(href=book.author.url) #{book.author.name}
+  p #[strong Summary:] #{book.summary}
+  p #[strong ISBN:] #{book.isbn}
+
+  <!--genre is an array in DB so we need for-->
+  p #[strong Genre:] 
+    each val, index in book.genre
+      a(herf=val.url) #{val.name}
+      <!--this generate , between genres but the last one(in case the book has more than one genre)-->
+      if index < book.genre.length - 1
+        |,
+
+  div(style='margin-top:50px;font-size:22px') Copies: 
+
+  for copy in copies 
+    hr
+    if copy.status=='Available'
+      span.text-success #{copy.status}
+    
+    if copy.status=='Maintenance'
+      span.text-danger #{copy.status}  
+    
+    p #[strong Imprint:] #{copy.imprint}
+
+    if copy.status!=='Available'
+      p #[strong Due back:] #{copy.due_back}
+
+  else 
+    p There are no copies of this book in the library.    
+
+    
+      
+       
+
+
