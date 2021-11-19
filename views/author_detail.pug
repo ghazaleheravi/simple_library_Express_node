@@ -1,0 +1,20 @@
+extends layout 
+
+block content 
+
+  div(style='margin-top:15px')
+  h2 Author: #{author.name}
+  
+  hr
+  
+  div(style='margin-left:30px;font-size:18px;margin-bottom:20px;margin-top:20px') 
+
+    h4 Books
+
+    dl
+      for book in books 
+        dt
+          a(href=book.url) #{book.title}
+        dd #{book.summary}
+      else 
+        p This author has no books.

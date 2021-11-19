@@ -1,6 +1,6 @@
 //we need to import models to intract with DB, and see how and what data we need 
 var Author = require('../models/author');
-
+var Book = require('../models/book');
 
 var async = require('async');
 
@@ -15,36 +15,54 @@ exports.author_list = function(req, res, next) {
 };
 
 // Display detail page for a specific Author.
-exports.author_detail = function(req, res) {
-    res.send('NOT IMPLEMENTED: Author detail: ' + req.params.id);
+exports.author_detail = function(req, res, next) {
+  async.parallel({
+    book: function(callback) {
+      Book.find({ author: req.params.id})
+        .populate('author')
+        .exec(callback);
+    },
+    author: function(callback) {
+      Author.findById({ _id: req.params.id })
+        .exec(callback);
+    }
+  },  function(err, results) {
+        if(err) {return next(err)};
+        if(results.author === null) {
+          var err = new Error('Author not found.');
+          err.status = 404;
+          return next(err);
+        };
+        res.render('author_detail', { title: 'author_detail', author: results.author, books: results.book });
+  });
 };
 
 // Display Author create form on GET.
 exports.author_create_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: Author create GET');
+  res.send('NOT IMPLEMENTED: Author create GET');
 };
 
 // Handle Author create on POST.
 exports.author_create_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Author create POST');
+  res.send('NOT IMPLEMENTED: Author create POST');
 };
 
 // Display Author delete form on GET.
 exports.author_delete_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: Author delete GET');
+  res.send('NOT IMPLEMENTED: Author delete GET');
 };
 
 // Handle Author delete on POST.
 exports.author_delete_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Author delete POST');
+  res.send('NOT IMPLEMENTED: Author delete POST');
 };
 
 // Display Author update form on GET.
 exports.author_update_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: Author update GET');
+  res.send('NOT IMPLEMENTED: Author update GET');
 };
 
 // Handle Author update on POST.
 exports.author_update_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Author update POST');
+  res.send('NOT IMPLEMENTED: Author update POST');
 };

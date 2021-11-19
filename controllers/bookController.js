@@ -47,7 +47,7 @@ exports.book_list = function(req, res, next) {
     });
 };
 
-// Display detail page for a specific book.
+// Display detail page for a specific book.s
 exports.book_detail = function(req, res, next) {
   var id = mongoose.Types.ObjectId(req.params.id);
   async.parallel({
