@@ -1,0 +1,11 @@
+extends layout 
+
+block content 
+
+
+  div(style='margin-left:20px;margin-top:20px')
+    p #[strong Title:] 
+      a(href=bookinstances.book.url) #{bookinstances.book.title}
+    p #[strong Imprint:] #{bookinstances.imprint}
+    p #[strong Status:] #{bookinstances.status}
+    p #[strong Due back:] #{bookinstances.formatted_due_back}
