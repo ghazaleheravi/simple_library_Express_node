@@ -12,6 +12,7 @@
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "^4.17.1",
+    "express-validator": "^6.13.0",
     "http-errors": "~1.6.3",
     "luxon": "^2.1.1",
     "mongoose": "^6.0.12",
