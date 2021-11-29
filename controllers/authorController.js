@@ -1,6 +1,7 @@
 //we need to import models to intract with DB, and see how and what data we need 
 var Author = require('../models/author');
 var Book = require('../models/book');
+var { body, validationResult} = require('express-validator');
 
 var async = require('async');
 
