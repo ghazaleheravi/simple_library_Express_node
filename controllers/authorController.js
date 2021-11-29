@@ -39,13 +39,49 @@ exports.author_detail = function(req, res, next) {
 
 // Display Author create form on GET.
 exports.author_create_get = function(req, res) {
-  res.send('NOT IMPLEMENTED: Author create GET');
+  res.render('author_form', { title: 'Create Author'});
 };
 
 // Handle Author create on POST.
-exports.author_create_post = function(req, res) {
-  res.send('NOT IMPLEMENTED: Author create POST');
-};
+exports.author_create_post = [
+  body('first_name').trim().isLength({ min: 1 }).escape().withMessage('First name must be specified.'),
+  body('family_name').trim().isLength({ min: 1 }).escape().withMessage('Last name must be specified.'),
+  body('birth_date').optional({ checkFalsy: true }).isISO8601().toDate(),
+  body('death_date').optional({ checkFalsy: true }).isISO8601().toDate(),
+
+  (req, res, next) => {
+    const errors = validationResult(req);
+    console.log('err: ',errors);
+
+    if(!errors.isEmpty()) {
+      res.render('author_form', { title: 'Create Author', author: req.body, errors: errors.array()})
+      return;
+    } else {
+      //it does not work, repetetive data added ?????
+      Author.findOne({'first_name': req.body.first_name , 'family_name': req.body.family_name })
+        .exec(function(err, found_author) {
+          if(err) { return next(err); };
+          if(found_author) {
+            res.redirct(found_author.url);
+          } else {
+            var author = new Author(
+              { first_name: req.body.first_name,
+                family_name: req.body.family_name,
+                date_of_birth: req.body.birth_date,
+                date_of_death: req.body.death_date
+              }
+            );
+
+            author.save(function(err) {
+              if(err) { return next(err); }
+              res.redirect(author.url);
+            });
+          }
+
+        });
+      }
+  }
+];
 
 // Display Author delete form on GET.
 exports.author_delete_get = function(req, res) {

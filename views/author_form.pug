@@ -1,0 +1,27 @@
+extends layout 
+
+block content 
+
+  h1= title 
+
+  form(method='POST', active='')
+    div(style='margin-bottom:20px; margin-top:20px;margin-left:20px')
+      label(for='first_name') #[strong FirstName: ]
+      input(type='text' name='first_name' required='true' value=(undefined===author ? '' : author.first_name))(style='display:inline-block; margin-right:100px')
+
+      label(for='family_name') #[strong LastName: ]
+      input(type='text', name='family_name' required='true' value=(undefined===author ? '' : author.family_name))
+
+    div(style='margin-left:20px')
+      label(for='date_of_birth') #[strong Date Of Birth: ]
+      input(type='date', name='birth_date')(style='display:inline-block; margin-right:100px')
+
+      label(for='date_of_death') #[strong Date Of Death: ]
+      input(type='date', name='death_date')
+    div
+      button(type='submit')(style='margin-left:20px;margin-top:20px;background-color:lightblue') Submit  
+
+  if errors  
+    ul 
+      for error in errors 
+        li!= error.msg 
