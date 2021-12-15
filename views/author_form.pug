@@ -1,27 +1,19 @@
-extends layout 
+extends layout
 
-block content 
+block content
+  h1=title
 
-  h1= title 
-
-  form(method='POST', active='')
-    div(style='margin-bottom:20px; margin-top:20px;margin-left:20px')
-      label(for='first_name') #[strong FirstName: ]
-      input(type='text' name='first_name' required='true' value=(undefined===author ? '' : author.first_name))(style='display:inline-block; margin-right:100px')
-
-      label(for='family_name') #[strong LastName: ]
-      input(type='text', name='family_name' required='true' value=(undefined===author ? '' : author.family_name))
-
-    div(style='margin-left:20px')
-      label(for='date_of_birth') #[strong Date Of Birth: ]
-      input(type='date', name='birth_date')(style='display:inline-block; margin-right:100px')
-
-      label(for='date_of_death') #[strong Date Of Death: ]
-      input(type='date', name='death_date')
-    div
-      button(type='submit')(style='margin-left:20px;margin-top:20px;background-color:lightblue') Submit  
-
-  if errors  
-    ul 
-      for error in errors 
-        li!= error.msg 
+  form(method='POST' action='')
+    div.form-group
+      label(for='first_name') First Name:
+      input#first_name.form-control(type='text' placeholder='First name (Christian) last' name='first_name' required='true' value=(undefined===author ? '' : author.first_name) )
+      label(for='family_name') Family Name:
+      input#family_name.form-control(type='text' placeholder='Family name (surname)' name='family_name' required='true' value=(undefined===author ? '' : author.family_name))
+    div.form-group
+      label(for='date_of_birth') Date of birth:
+      input#date_of_birth.form-control(type='date' name='date_of_birth' value=(undefined===author ? '' : author.date_of_birth) )
+    button.btn.btn-primary(type='submit') Submit
+  if errors
+    ul
+      for error in errors
+        li!= error.msg

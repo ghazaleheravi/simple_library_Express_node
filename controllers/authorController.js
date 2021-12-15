@@ -44,12 +44,15 @@ exports.author_create_get = function(req, res) {
 };
 
 // Handle Author create on POST.
+// body([field, message]) there are more functions like headers(), cookies(),...
+// check express-validator Docs
 exports.author_create_post = [
   body('first_name').trim().isLength({ min: 1 }).escape().withMessage('First name must be specified.'),
   body('family_name').trim().isLength({ min: 1 }).escape().withMessage('Last name must be specified.'),
-  body('birth_date').optional({ checkFalsy: true }).isISO8601().toDate(),
-  body('death_date').optional({ checkFalsy: true }).isISO8601().toDate(),
+  body('birth_date', 'Invalid date').optional({ checkFalsy: true }).isISO8601().toDate(),
+  body('death_date', 'Invalid date').optional({ checkFalsy: true }).isISO8601().toDate(),
 
+  // runs the validation 
   (req, res, next) => {
     const errors = validationResult(req);
     console.log('err: ',errors);
